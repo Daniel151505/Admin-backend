@@ -1,6 +1,7 @@
-const Usuario = require("../models/usuario");
-const { validationResult } = require('express-validator')
 const { response } = require('express');
+const bcrypt = require('bcryptjs');
+
+const Usuario = require("../models/usuario");
 
 const getUsuarios = async(req, res) => {
   
@@ -13,7 +14,7 @@ const getUsuarios = async(req, res) => {
 }
 
 const crearUsuario = async  (req, res = response) => {
-  const {email, password, name} = req.body;
+  const {email, password} = req.body;
     
   try {
     const existeEmail = await Usuario.findOne({email});
@@ -26,7 +27,14 @@ const crearUsuario = async  (req, res = response) => {
     }
 
     const usuario = new Usuario(req.body);
+
+    //Encriptar contraseña
+    const salt = bcrypt.genSaltSync();
+    usuario.password = bcrypt.hashSync(password, salt);
+
+    //Guardar usuario
     await usuario.save();
+    
     res.json({
         ok: true,
         usuario
