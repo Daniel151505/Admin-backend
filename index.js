@@ -18,8 +18,8 @@ app.use( express.json() );
 dbConnection();
 
 // Rutas
-
 app.use('/api/usuarios', require('./routes/usuarios'))
+app.use('/api/login', require('./routes/auth'))
 
 app.listen(3000, () => {
     console.log('Serivdor corriendo en puerto '+ 3000)
