@@ -20,9 +20,9 @@ const HospitalSchema = Schema({
 }, { collection: 'hospitales' });
 
 HospitalSchema.method('toJSON', function(){
-  const { password, ...object} = this.toObject();
+  const { __v, ...object} = this.toObject();
   return object;
 })
 
 
-module.exports = model('Usuario', HospitalSchema)
+module.exports = model('Hospital', HospitalSchema)

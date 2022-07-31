@@ -10,7 +10,7 @@ const getHospitales = (req, res = response) => {
 const crearHospital = (req, res = response) => {
     res.json({
         ok: true,
-        msg: 'creartHospital'
+        msg: 'crearHospital'
     })
 }
 
@@ -24,7 +24,7 @@ const actualizarHospital = (req, res = response) => {
 const borrarHospital = (req, res = response) => {
     res.json({
         ok: true,
-        msg: 'borrartHospital'
+        msg: 'borrarHospital'
     })
 }
 
