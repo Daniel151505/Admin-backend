@@ -8,12 +8,8 @@ const HospitalSchema = Schema({
   img: {
     type: String
   },
-  role: {
-    type: String,
-    required: true,
-    default:'USER_ROLE'
-  },
   usuario: {
+    required: true,
     type: Schema.Types.ObjectId,
     ref: 'Usuario'
   }
