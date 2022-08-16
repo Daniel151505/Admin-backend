@@ -10,16 +10,18 @@ const MedicoSchema = Schema({
   },
   usuario: {
     type: Schema.Types.ObjectId,
-    ref: 'Usuario'
+    ref: 'Usuario', 
+    required: true
   }, 
   hospital: {
     type: Schema.Types.ObjectId,
-    ref: 'Hospital'
+    ref: 'Hospital',
+    require: true
   }
 });
 
 MedicoSchema.method('toJSON', function(){
-  const { __V, ...object} = this.toObject();
+  const { __v, ...object} = this.toObject();
   return object;
 })
 
