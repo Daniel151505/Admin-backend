@@ -1,5 +1,5 @@
 const { response } = require("express");
-
+const { v4: uuidv4 } = require('uuid');
 
 const fileUpload = (req, res = response)=> {
 
@@ -13,7 +13,7 @@ const fileUpload = (req, res = response)=> {
         return res.status(400).json({
             ok: false,
            msg: 'No es un médico , usuario u hospital' 
-        })
+        });
     }
 
     // Validar que exista un archivo
@@ -25,16 +25,48 @@ const fileUpload = (req, res = response)=> {
     }
 
     // Procesar la imagen...
+    const file = req.files.imagen;
     
+    const nombreCortado = file.name.split('.');
+    const extensionArchivo = nombreCortado[ nombreCortado.length - 1 ];
+
+    // Validar extensión
+    const extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'];
+    if (!extensionesValidas.includes(extensionArchivo)) {
+        return res.status(400).json({
+            ok: false,
+            msg : 'No es una extensión permitida'
+        });
+    }
+
+    // Generar el nombre del archivo para
+    const nombreArchivo = `${ uuidv4() }.${ extensionArchivo }`;
+
+    // Path para guardar la imagen
+    const path = `./uploads/${ tipo }/${ nombreArchivo }`;
+
+    // Mover la imagen
+    file.mv( path, (err) => {
+    if (err) {
+       console.log(err);
+       return res.status(500).json({ 
+         ok: false,
+         msg: 'Error al mover la imagen'
+       });
+    }
 
     res.json({
         ok: true,
-        msg: 'fileUploaded'
-    })
+        msg: 'Archivo subido',
+        nombreArchivo
+    });
 
-}
+  });
+
+};
+
 
 
 module.exports = {
     fileUpload
-}
+};
